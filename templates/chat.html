@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Legal Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>LegalAidBuddy AI Assistant</h1>
+    </header>
+
+    <section id="chatbox">
+        <h2>Ask a Legal Question</h2>
+        <input type="text" id="user-question" placeholder="Type your question here...">
+        <button onclick="askAI()">Ask</button>
+        <p id="ai-response"></p>
+    </section>
+
+    <script>
+        function askAI() {
+            let question = document.getElementById("user-question").value;
+
+            fetch('/chat', {
+                method: "POST",
+                body: JSON.stringify({"question": question}),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("ai-response").innerText = "AI: " + data.response;
+            });
+        }
+    </script>
+</body>
+</html>
